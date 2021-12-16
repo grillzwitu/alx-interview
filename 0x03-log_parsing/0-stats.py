@@ -1,40 +1,38 @@
 #!/usr/bin/python3
-"""
-Reads stdin line by line
-and computes metrics
+"""stats module
 """
 from sys import stdin
 
 
-stat_codes = {'200': 0, '301': 0, '400': 0, '401': 0,
-              '403': 0, '404': 0, '405': 0, '500': 0}
-total_size = 0
+codes = {'200': 0, '301': 0, '400': 0, '401': 0,
+         '403': 0, '404': 0, '405': 0, '500': 0}
+size = 0
 
 
-def print_stats():
+def print_info():
+    """print_info method print needed info
+    Args:
+        codes (dict): code status
+        size (int): size of files
     """
-    prints the stats for input in the correct give
-    every 10 lines or key interruption
-    """
-    print("File size: {}".format(total_size))
-    for key, val in sorted(stat_codes.items()):
+    print("File size: {}".format(size))
+    for key, val in sorted(codes.items()):
         if val > 0:
             print("{}: {}".format(key, val))
 
-
 if __name__ == '__main__':
     try:
-        for line_num, line in enumerate(stdin, 1):
+        for i, line in enumerate(stdin, 1):
             try:
-                stat = line.split()
-                total_size += int(stat[-1])
-                if stat[-2] in stat_codes.keys():
-                    stat_codes[stat[-2]] += 1
+                info = line.split()
+                size += int(info[-1])
+                if info[-2] in codes.keys():
+                    codes[info[-2]] += 1
             except:
                 pass
-            if not line_num % 10:
-                print_stats()
+            if not i % 10:
+                print_info()
     except KeyboardInterrupt:
-        print_stats()
+        print_info()
         raise
-    print_stats()
+    print_info()
