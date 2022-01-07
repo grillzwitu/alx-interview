@@ -7,7 +7,7 @@ import sys
 
 def nqueens(queens_pos, col, N):
     """
-     Places N non-attacking queens on an N×N board
+     Places N non-attacking queens on an NxN board
     """
     if queens_pos[0][1] >= N:
         return
