@@ -5,11 +5,11 @@
 import sys
 
 
-def backtrack(r, n, cols, pos, neg, board):
+def backtrack(rh, n, cols, pos, neg, board):
     """
-    backtrack function to find solution
+    backtrack function to recursively find non attacking positions
     """
-    if r == n:
+    if rh == n:
         res = []
         for l in range(len(board)):
             for k in range(len(board[l])):
@@ -18,26 +18,26 @@ def backtrack(r, n, cols, pos, neg, board):
         print(res)
         return
 
-    for c in range(n):
-        if c in cols or (r + c) in pos or (r - c) in neg:
+    for p in range(n):
+        if p in cols or (rh + p) in pos or (rh - p) in neg:
             continue
 
-        cols.add(c)
-        pos.add(r + c)
-        neg.add(r - c)
-        board[r][c] = 1
+        cols.add(p)
+        pos.add(rh + p)
+        neg.add(rh - p)
+        board[rh][p] = 1
 
-        backtrack(r+1, n, cols, pos, neg, board)
+        backtrack(rh+1, n, cols, pos, neg, board)
 
-        cols.remove(c)
-        pos.remove(r + c)
-        neg.remove(r - c)
-        board[r][c] = 0
+        cols.remove(p)
+        pos.remove(rh + p)
+        neg.remove(rh - p)
+        board[rh][p] = 0
 
 
 def nqueens(n):
     """
-    Solution to nqueens problem
+    Places N non-attacking queens on an NxN board
     Args:
         n (int): number of queens. Must be >= 4
     Return:
