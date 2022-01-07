@@ -48,7 +48,7 @@ if __name__ == "__main__":
         exit(1)
     try:
         N = int(sys.argv[1])
-    except TypeError:
+    except ValueError:
         print("N must be a number")
         exit(1)
 
