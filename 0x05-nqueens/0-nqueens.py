@@ -5,55 +5,35 @@
 import sys
 
 
-def nqueens(queens_pos, col, N):
-    """
-     Places N non-attacking queens on an NxN board
-    """
-    if queens_pos[0][1] >= N:
-        return
+def nonAttack(brd, ln, i):
+    '''checks a place is not attacked by queens'''
+    for j in range(ln):
+        if(brd[j] == i or brd[j] + ln - j == i or brd[j] + j - ln == i):
+            return False
+    return True
 
-    x = len(queens_pos)
-    if x >= N:
-        print(queens_pos)
-        queens_pos = [[0, queens_pos[0][1] + 1]]
-        return nqueens(queens_pos, 0, N)
 
-    pc_pos = True
-    for y in range(col, N):
-        pc_pos = True
-        for i in queens_pos:
-            if y == i[1] or x - y == i[0] - i[1] or \
-               x + y == i[0] + i[1]:
-                pc_pos = False
-                break
-        if pc_pos:
-            queens_pos.append([x, y])
-            return nqueens(queens_pos, 0, N)
-
-    if not pc_pos:
-        while(x > 0):
-            x -= 1
-            col = queens_pos[x][1] + 1
-            if x == 0:
-                return nqueens([[0, queens_pos[0][1] + 1]], 0, N)
+def fillBoard(brd, ln):
+    '''finds the next safe posn to land the queen'''
+    for i in range(len(brd)):
+        if nonAttack(brd, ln, i):
+            brd[ln] = i
+            if ln < len(brd) - 1:
+                fillBoard(brd, ln + 1)
             else:
-                del queens_pos[x]
-                if col < N:
-                    return nqueens(queens_pos, col, N)
+                print([[i, brd[i]] for i in range(len(brd))])
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        exit(1)
-    try:
-        N = int(sys.argv[1])
-    except TypeError:
-        print("N must be a number")
-        exit(1)
-
-    if N < 4:
-        print("N must be at least 4")
-        exit(1)
-
-    nqueens([[0, 0]], 0, N)
+if len(sys.argv) != 2:
+    print("Usage: nqueens N")
+    sys.exit(1)
+try:
+    n = int(sys.argv[1])
+except Exception:
+    print("N must be a number")
+    sys.exit(1)
+if n < 4:
+    print("N must be at least 4")
+    sys.exit(1)
+brd = [-1 for i in range(n)]
+fillBoard(brd, 0)
