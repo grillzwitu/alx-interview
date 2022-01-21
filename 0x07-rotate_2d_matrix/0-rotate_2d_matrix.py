@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
 Contains a function that rotates a 2D matrix 90 degrees
-clockwise 
+clockwise
 """
 
 
